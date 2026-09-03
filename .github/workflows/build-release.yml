@@ -34,12 +34,10 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
           echo "$KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
-          cat > android/key.properties <<EOF
-          storePassword=minhaloja123
-          keyPassword=minhaloja123
-          keyAlias=minhaloja
-          storeFile=upload-keystore.jks
-          EOF
+          echo "storePassword=minhaloja123" > android/key.properties
+          echo "keyPassword=minhaloja123" >> android/key.properties
+          echo "keyAlias=minhaloja" >> android/key.properties
+          echo "storeFile=upload-keystore.jks" >> android/key.properties
 
       - name: Accept Android licenses
         run: yes | flutter doctor --android-licenses || true
