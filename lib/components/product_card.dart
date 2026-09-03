@@ -94,7 +94,7 @@ class _ProductCardState extends State<ProductCard> {
                             Text(
                               stats[index],
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Open Sans',
                                 color: active
@@ -105,7 +105,7 @@ class _ProductCardState extends State<ProductCard> {
                             Text(
                               statsValues[index],
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Open Sans',
                                 color: active
@@ -123,7 +123,7 @@ class _ProductCardState extends State<ProductCard> {
             ),
             const Divider(height: 1, color: Color(0xFFECECEC)),
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
                   Expanded(
@@ -133,7 +133,7 @@ class _ProductCardState extends State<ProductCard> {
                         Text(
                           widget.item.description,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 15,
                             color: AppColors.textPrimary,
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Open Sans',
@@ -141,10 +141,11 @@ class _ProductCardState extends State<ProductCard> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        const SizedBox(height: 2),
                         Text(
                           '${widget.item.ean} | ${widget.item.sap}',
                           style: const TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             color: AppColors.textMuted,
                             fontFamily: 'Open Sans',
                           ),
@@ -152,11 +153,12 @@ class _ProductCardState extends State<ProductCard> {
                       ],
                     ),
                   ),
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: _handleStatusPress,
                     child: Container(
-                      width: 28,
-                      height: 28,
+                      width: 32,
+                      height: 32,
                       decoration: BoxDecoration(
                         color: widget.item.treated
                             ? AppColors.success.withOpacity(0.15)
@@ -164,7 +166,7 @@ class _ProductCardState extends State<ProductCard> {
                         shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: Image.asset(_statusAsset(), width: 18, height: 18),
+                        child: Image.asset(_statusAsset(), width: 20, height: 20),
                       ),
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:rotina_comercial/api/cronet_adapter.dart';
 import 'package:rotina_comercial/storage/session.dart';
 import 'package:rotina_comercial/auth/auth_provider.dart';
 import 'package:rotina_comercial/hooks/departments_controller.dart';
+import 'package:rotina_comercial/screens/splash_screen.dart';
 import 'package:rotina_comercial/screens/login_screen.dart';
 import 'package:rotina_comercial/screens/login_token_screen.dart';
 import 'package:rotina_comercial/screens/login_webview_screen.dart';
@@ -29,10 +30,7 @@ void main() async {
     if (proxy != null && proxy.isNotEmpty) {
       setSystemProxy(proxy);
     }
-  } catch (_) {
-    // ignora se não houver proxy configurado
-  }
-  // Proxy salvo manualmente prevalece sobre a auto-detecção.
+  } catch (_) {}
   try {
     final saved = await Session.getProxy();
     if (saved.isNotEmpty) {
@@ -70,7 +68,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color(0xFFF2F4F8),
           useMaterial3: false,
         ),
-        home: const Root(),
+        home: const SplashScreenWrapper(),
         routes: {
           'Login': (context) => const LoginScreen(),
           'LoginWebView': (context) => const LoginWebViewScreen(),
@@ -81,6 +79,27 @@ class MyApp extends StatelessWidget {
           'Dashboard': (context) => const DashboardScreen(),
         },
       ),
+    );
+  }
+}
+
+class SplashScreenWrapper extends StatefulWidget {
+  const SplashScreenWrapper({super.key});
+
+  @override
+  State<SplashScreenWrapper> createState() => _SplashScreenWrapperState();
+}
+
+class _SplashScreenWrapperState extends State<SplashScreenWrapper> {
+  bool _splashDone = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_splashDone) {
+      return const Root();
+    }
+    return SplashScreen(
+      onComplete: () => setState(() => _splashDone = true),
     );
   }
 }

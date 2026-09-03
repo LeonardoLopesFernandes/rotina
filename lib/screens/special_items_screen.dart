@@ -130,18 +130,18 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
               if (_blocked)
                 Container(
                   color: const Color(0xFFFEE2E2),
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   width: double.infinity,
-                  child: Text('🔒 ${getBlockedMessage()}',  // ignore: use_full_hex_values_for_flutter_colors
+                  child: Text('Tratamento bloqueado',  // ignore: use_full_hex_values_for_flutter_colors
                       style: const TextStyle(
-                          color: AppColors.danger, fontSize: 12, fontWeight: FontWeight.w600)),
+                          color: AppColors.danger, fontSize: 14, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
                 ),
               Expanded(
                 child: RefreshIndicator(
                   color: AppColors.primary,
                   onRefresh: _loadItems,
                   child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(10),
                     itemCount: _groups.length,
                     itemBuilder: (context, index) {
                       final group = _groups[index];
@@ -149,51 +149,58 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
                       final treatedCount =
                           group.items.where((i) => i.isTreated).length;
                       final allTreated = total > 0 && treatedCount == total;
-                      String? statusIcon;
-                      if (_blocked) {
-                        statusIcon = 'assets/ic_block.png';
-                      } else if (allTreated) {
-                        statusIcon = 'assets/ic_check.png';
-                      }
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '${group.department.code} - ${group.department.name}',
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.bold),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '${group.department.code} - ${group.department.name}',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Open Sans'),
+                                        ),
                                       ),
-                                    ),
-                                    if (statusIcon != null)
-                                      Image.asset(statusIcon, width: 20, height: 20),
-                                  ],
+                                      const SizedBox(width: 6),
+                                      if (allTreated)
+                                        const Icon(Icons.check_circle, color: AppColors.success, size: 22)
+                                      else if (_blocked)
+                                        Image.asset('assets/ic_block.png', width: 22, height: 22),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                constraints: const BoxConstraints(
-                                    minWidth: 18, minHeight: 18),
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryDark,
-                                  borderRadius: BorderRadius.circular(9),
+                                const SizedBox(width: 8),
+                                Container(
+                                  constraints: const BoxConstraints(
+                                      minWidth: 22, minHeight: 22),
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                  ),
+                                  child: Center(
+                                    child: Text('$total',
+                                        style: const TextStyle(
+                                            color: AppColors.primary,
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'Open Sans')),
+                                  ),
                                 ),
-                                child: Center(
-                                  child: Text('$total',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           ...group.items.map((special) => SpecialProductCard(
                                 key: ValueKey('${special.id}-${special.ean}'),
@@ -238,7 +245,7 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -246,9 +253,10 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
                         children: [
                           const Text('Tratamento',
                               style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primary)),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.primary,
+                                  fontFamily: 'Open Sans')),
                           const SizedBox(height: 12),
                           _badgeRow('Tratado por:',
                               _badgeItem!.treatedBy ?? _badgeUserName),
@@ -256,31 +264,43 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
                               formatBadgeDate(_badgeItem!.treatedDate)),
                           const Text('Respostas:',
                               style: TextStyle(
-                                  fontSize: 12, color: AppColors.textMuted)),
+                                  fontSize: 13, color: AppColors.textMuted, fontFamily: 'Open Sans')),
                           Flexible(
                             child: SingleChildScrollView(
                               child: _badgeItem!.question != null
                                   ? Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('✓',
-                                            style: TextStyle(
-                                                color: Color(0xFF4CAF50),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14)),
+                                        Container(
+                                          width: 20,
+                                          height: 20,
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.success,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Center(
+                                            child: Text('✓',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 12)),
+                                          ),
+                                        ),
                                         const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(_badgeItem!.question!,
                                               style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xFF333333))),
+                                                  fontSize: 14,
+                                                  color: Color(0xFF3D3D3D),
+                                                  fontFamily: 'Open Sans')),
                                         ),
                                       ],
                                     )
                                   : const Text('Detalhes indisponíveis',
                                       style: TextStyle(
                                           fontSize: 14,
-                                          color: AppColors.textHint)),
+                                          color: AppColors.textHint,
+                                          fontFamily: 'Open Sans')),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -291,13 +311,15 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               decoration: BoxDecoration(
                                 color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(AppRadius.md),
+                                borderRadius: BorderRadius.circular(4),
                               ),
                               child: const Center(
                                 child: Text('Fechar',
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
+                                        fontFamily: 'Open Sans')),
                               ),
                             ),
                           ),
@@ -318,36 +340,51 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+          top: MediaQuery.of(context).padding.top, left: 12, right: 12),
       child: SizedBox(
-        height: 56,
+        height: 64,
         child: Row(
           children: [
             GestureDetector(
               onTap: () => Navigator.of(context).pop(),
-              child: const SizedBox(
-                width: 40,
-                height: 40,
-                child: Center(
-                  child: Text('‹', style: TextStyle(fontSize: 32, color: AppColors.textPrimary)),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Center(
+                  child: Icon(Icons.arrow_back, color: Colors.white, size: 26),
                 ),
               ),
             ),
             Expanded(
               child: Text(title,
                   style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                      fontFamily: 'Open Sans'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
             ),
             GestureDetector(
               onTap: () => setState(() => _showMenu = true),
-              child: Image.asset('assets/home.png', width: 24, height: 24),
-          ),
-        ],
-      ),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Center(
+                  child: Icon(Icons.menu, color: Colors.white, size: 26),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -360,11 +397,11 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
         child: Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: const EdgeInsets.only(top: 52, right: 8),
-            width: 280,
+            margin: const EdgeInsets.only(top: 60, right: 12),
+            width: 290,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: BorderRadius.circular(8),
               boxShadow: const [
                 BoxShadow(color: Color(0x33000000), blurRadius: 12, offset: Offset(0, 2)),
               ],
@@ -372,13 +409,30 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _menuItem('Rotina do dia', () {
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(14),
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                  ),
+                  child: const Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      fontFamily: 'Open Sans',
+                    ),
+                  ),
+                ),
+                _menuItem(Icons.today, 'Rotina do dia', () {
                   setState(() => _showMenu = false);
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       'Main', (route) => false);
                 }),
-                _menuItem('Itens sem venda', () => _handleMenuOption('unsold')),
-                _menuItem('Itens sem histórico de venda',
+                _menuItem(Icons.remove_shopping_cart, 'Itens sem venda', () => _handleMenuOption('unsold')),
+                _menuItem(Icons.history, 'Itens sem histórico de venda',
                     () => _handleMenuOption('no_sales_history')),
               ],
             ),
@@ -388,31 +442,45 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
     );
   }
 
-  Widget _menuItem(String label, VoidCallback onTap) {
+  Widget _menuItem(IconData icon, String label, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        child: Text(label,
-            style: const TextStyle(
-                fontSize: 15, color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.primary, size: 22),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(label,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Open Sans')),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _badgeRow(String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(value,
-              style: const TextStyle(
-                  fontSize: 14, color: Color(0xFF333333), fontWeight: FontWeight.w600)),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 13, color: AppColors.textMuted, fontFamily: 'Open Sans')),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(value,
+                style: const TextStyle(
+                    fontSize: 14, color: Color(0xFF3D3D3D), fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
+          ),
+        ],
+      ),
     );
   }
 }

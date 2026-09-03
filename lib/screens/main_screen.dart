@@ -7,6 +7,7 @@ import 'package:rotina_comercial/components/department_card.dart';
 import 'package:rotina_comercial/components/success_toast.dart';
 import 'package:rotina_comercial/components/treatment_badge_modal.dart';
 import 'package:rotina_comercial/hooks/departments_controller.dart';
+import 'package:rotina_comercial/screens/profile_screen.dart';
 import 'package:rotina_comercial/theme.dart';
 import 'package:rotina_comercial/types.dart';
 import 'package:rotina_comercial/utils/time.dart';
@@ -100,11 +101,11 @@ class _MainScreenState extends State<MainScreen> {
                 _toolbar(context, controller),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
                     child: Column(
                       children: [
                         _mainCard(controller),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 6),
                         Expanded(
                           child: _content(controller),
                         ),
@@ -149,50 +150,64 @@ class _MainScreenState extends State<MainScreen> {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+          top: MediaQuery.of(context).padding.top, left: 12, right: 12),
       child: SizedBox(
-        height: 60,
+        height: 64,
         child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => setState(() => _showMenu = true),
-            child: Image.asset('assets/home.png', width: 24, height: 24),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/logo_rotina.png', width: 20, height: 20),
-                const SizedBox(width: 6),
-                const Text('Rotina Comercial',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                        fontFamily: 'Open Sans')),
-              ],
+          children: [
+            GestureDetector(
+              onTap: () => setState(() => _showMenu = true),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Center(
+                  child: Icon(Icons.calendar_today, color: Colors.white, size: 26),
+                ),
+              ),
             ),
-          ),
-          GestureDetector(
-            onTap: () => setState(() => _showLogout = true),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.userCircle,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 3),
-                boxShadow: const [
-                  BoxShadow(color: Color(0x03000000), blurRadius: 12, offset: Offset(0, 8)),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/logo_rotina.png', width: 26, height: 26),
+                  const SizedBox(width: 8),
+                  const Text('Rotina Comercial',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
+                          fontFamily: 'Open Sans')),
                 ],
               ),
-              child: Center(
-                child: Image.asset('assets/ic_user.png', width: 26, height: 26),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                );
+              },
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 3),
+                  boxShadow: const [
+                    BoxShadow(color: Color(0x03000000), blurRadius: 12, offset: Offset(0, 8)),
+                  ],
+                ),
+                child: Center(
+                  child: Image.asset('assets/ic_user.png', width: 28, height: 28),
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
@@ -202,57 +217,64 @@ class _MainScreenState extends State<MainScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       child: Column(
         children: [
           GestureDetector(
             onTap: () => setState(() {
-                  _showDatePicker = true;
-                  _calendarMonth =
-                      DateTime(controller.selectedDate.year, controller.selectedDate.month, 1);
-                }),
+              _showDatePicker = true;
+              _calendarMonth =
+                  DateTime(controller.selectedDate.year, controller.selectedDate.month, 1);
+            }),
             child: Row(
               children: [
+                const Icon(Icons.today, color: AppColors.primary, size: 22),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Dia da Semana:',
-                          style: TextStyle(fontSize: 14, color: AppColors.textMuted)),
+                          style: TextStyle(fontSize: 15, color: AppColors.textMuted, fontFamily: 'Open Sans')),
                       Text(dayOfWeek,
                           style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary)),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                              fontFamily: 'Open Sans')),
                     ],
                   ),
                 ),
-                Image.asset('assets/agenda.png', width: 100, height: 40),
+                Image.asset('assets/agenda.png', width: 110, height: 44),
               ],
             ),
           ),
+          const SizedBox(height: 8),
           GestureDetector(
             onTap: () => setState(() {
-                  _showDatePicker = true;
-                  _calendarMonth =
-                      DateTime(controller.selectedDate.year, controller.selectedDate.month, 1);
-                }),
+              _showDatePicker = true;
+              _calendarMonth =
+                  DateTime(controller.selectedDate.year, controller.selectedDate.month, 1);
+            }),
             child: Row(
               children: [
+                const Icon(Icons.date_range, color: AppColors.primary, size: 22),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Data:',
-                          style: TextStyle(fontSize: 14, color: AppColors.textMuted)),
+                          style: TextStyle(fontSize: 15, color: AppColors.textMuted, fontFamily: 'Open Sans')),
                       Text(formatDisplayDate(controller.selectedDate),
                           style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary)),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                              fontFamily: 'Open Sans')),
                     ],
                   ),
                 ),
@@ -263,36 +285,45 @@ class _MainScreenState extends State<MainScreen> {
                         formatApiDate(controller.selectedDate));
                     showToast(result.message, true);
                   },
-                  child: Image.asset('assets/imprimir.png', width: 100, height: 40),
+                  child: Image.asset('assets/imprimir.png', width: 110, height: 44),
                 ),
               ],
             ),
           ),
-          const Divider(height: 16, color: AppColors.divider),
+          const Divider(height: 18, color: AppColors.divider),
           Row(
             children: [
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF2F4F8),
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE0E0E0)),
+                    border: Border.all(color: const Color(0xFFC8C6C4)),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
                     children: [
+                      const Icon(Icons.search, color: AppColors.primary, size: 22),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: TextField(
                           controller: _queryController,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Open Sans',
+                          ),
                           decoration: const InputDecoration(
                             hintText: 'Pesquisar por departamento',
-                            hintStyle: TextStyle(color: AppColors.textHint),
+                            hintStyle: TextStyle(
+                              color: AppColors.textHint,
+                              fontFamily: 'Open Sans',
+                              fontSize: 15,
+                            ),
                             border: InputBorder.none,
                           ),
                           onChanged: (text) => controller.searchDepartment(text),
                         ),
                       ),
-                      Image.asset('assets/loopa.png', width: 20, height: 20),
                     ],
                   ),
                 ),
@@ -313,14 +344,14 @@ class _MainScreenState extends State<MainScreen> {
     if (controller.error != null) {
       return Center(
         child: Text(controller.error!,
-            style: const TextStyle(color: AppColors.danger, fontSize: 14),
+            style: const TextStyle(color: AppColors.danger, fontSize: 15, fontFamily: 'Open Sans'),
             textAlign: TextAlign.center),
       );
     }
     if (controller.departments.isEmpty) {
       return const Center(
-        child: Text('📭 Nenhum item encontrado para esta data',
-            style: TextStyle(color: AppColors.textHint, fontSize: 14),
+        child: Text('Nenhum item encontrado para esta data',
+            style: TextStyle(color: AppColors.textHint, fontSize: 15, fontFamily: 'Open Sans'),
             textAlign: TextAlign.center),
       );
     }
@@ -361,11 +392,11 @@ class _MainScreenState extends State<MainScreen> {
         child: Align(
           alignment: Alignment.topLeft,
           child: Container(
-            margin: const EdgeInsets.only(top: 56, left: 8),
-            width: 280,
+            margin: const EdgeInsets.only(top: 60, left: 12),
+            width: 290,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: BorderRadius.circular(8),
               boxShadow: const [
                 BoxShadow(color: Color(0x33000000), blurRadius: 12, offset: Offset(0, 2)),
               ],
@@ -373,17 +404,34 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _menuItem('Painel de indicadores', () {
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(14),
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                  ),
+                  child: const Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      fontFamily: 'Open Sans',
+                    ),
+                  ),
+                ),
+                _menuItem(Icons.dashboard, 'Painel de indicadores', () {
                   setState(() => _showMenu = false);
                   Navigator.of(context).pushNamed('Dashboard');
                 }),
-                _menuItem('Rotina do dia', () => setState(() => _showMenu = false)),
-                _menuItem('Itens sem venda', () {
+                _menuItem(Icons.today, 'Rotina do dia', () => setState(() => _showMenu = false)),
+                _menuItem(Icons.remove_shopping_cart, 'Itens sem venda', () {
                   setState(() => _showMenu = false);
                   Navigator.of(context).pushNamed('SpecialItems',
                       arguments: {'itemType': 'unsold'});
                 }),
-                _menuItem('Itens sem histórico de venda', () {
+                _menuItem(Icons.history, 'Itens sem histórico de venda', () {
                   setState(() => _showMenu = false);
                   Navigator.of(context).pushNamed('SpecialItems',
                       arguments: {'itemType': 'no_sales_history'});
@@ -396,27 +444,39 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _menuItem(String label, VoidCallback onTap) {
+  Widget _menuItem(IconData icon, String label, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        child: Text(label,
-            style: const TextStyle(
-                fontSize: 15, color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.primary, size: 22),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(label,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Open Sans')),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _exitDialog() {
     return _centerDialog(
-      'Sair do app',
-      'Deseja realmente sair do aplicativo?',
-      'Cancelar',
-      'Sair',
-      () => setState(() => _showExit = false),
-      () {
+      icon: Icons.exit_to_app,
+      title: 'Sair do app',
+      message: 'Deseja realmente sair do aplicativo?',
+      cancelLabel: 'Cancelar',
+      confirmLabel: 'Sair',
+      onCancel: () => setState(() => _showExit = false),
+      onConfirm: () {
         setState(() => _showExit = false);
         SystemNavigator.pop();
       },
@@ -425,75 +485,110 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _logoutDialog(BuildContext context) {
     return _centerDialog(
-      'Sair da conta',
-      'Deseja realmente sair da sua conta?',
-      'Cancelar',
-      'Sair',
-      () => setState(() => _showLogout = false),
-      () async {
+      icon: Icons.logout,
+      title: 'Sair da conta',
+      message: 'Deseja realmente sair da sua conta?',
+      cancelLabel: 'Cancelar',
+      confirmLabel: 'Sair',
+      onCancel: () => setState(() => _showLogout = false),
+      onConfirm: () async {
         setState(() => _showLogout = false);
-        showToast('👋 Deslogado com sucesso!');
+        showToast('Deslogado com sucesso!');
         await context.read<AuthProvider>().logout();
       },
     );
   }
 
-  Widget _centerDialog(String title, String message, String cancelLabel,
-      String confirmLabel, VoidCallback onCancel, VoidCallback onConfirm) {
+  Widget _centerDialog({
+    required IconData icon,
+    required String title,
+    required String message,
+    required String cancelLabel,
+    required String confirmLabel,
+    required VoidCallback onCancel,
+    required VoidCallback onConfirm,
+  }) {
     return Container(
       color: const Color(0x66000000),
       child: Align(
         alignment: Alignment.center,
         child: Container(
           width: double.infinity,
-          constraints: const BoxConstraints(maxWidth: 320),
+          constraints: const BoxConstraints(maxWidth: 340),
           margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(AppRadius.lg),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 1),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: Colors.white, size: 28),
+              ),
+              const SizedBox(height: 16),
               Text(title,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                      fontFamily: 'Open Sans')),
               const SizedBox(height: 8),
               Text(message,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14, color: AppColors.textSecondary)),
-              const SizedBox(height: 20),
+                  style: const TextStyle(fontSize: 15, color: AppColors.textSecondary, fontFamily: 'Open Sans')),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: onCancel,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF1F3F4),
-                        borderRadius: BorderRadius.circular(AppRadius.md),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(cancelLabel,
                           style: const TextStyle(
-                              color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
+                              color: AppColors.textPrimary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              fontFamily: 'Open Sans')),
                     ),
                   ),
                   const SizedBox(width: 12),
                   GestureDetector(
                     onTap: onConfirm,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                       decoration: BoxDecoration(
                         color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(AppRadius.md),
+                        borderRadius: BorderRadius.circular(4),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x47000000),
+                            blurRadius: 3.6,
+                            offset: Offset(0, 1.6),
+                          ),
+                        ],
                       ),
                       child: Text(confirmLabel,
                           style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold)),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                              fontFamily: 'Open Sans')),
                     ),
                   ),
                 ],
@@ -527,12 +622,12 @@ class _MainScreenState extends State<MainScreen> {
       child: Center(
         child: Container(
           width: double.infinity,
-          constraints: const BoxConstraints(maxWidth: 340),
+          constraints: const BoxConstraints(maxWidth: 360),
           margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(AppRadius.lg),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -541,7 +636,7 @@ class _MainScreenState extends State<MainScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.chevron_left, color: AppColors.primary),
+                    icon: const Icon(Icons.chevron_left, color: AppColors.primary, size: 28),
                     onPressed: () => setState(() {
                       _calendarMonth = DateTime(
                           _calendarMonth.year, _calendarMonth.month - 1, 1);
@@ -549,11 +644,12 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   Text('${months[_calendarMonth.month - 1]} ${_calendarMonth.year}',
                       style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary)),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                          fontFamily: 'Open Sans')),
                   IconButton(
-                    icon: const Icon(Icons.chevron_right, color: AppColors.primary),
+                    icon: const Icon(Icons.chevron_right, color: AppColors.primary, size: 28),
                     onPressed: () => setState(() {
                       _calendarMonth = DateTime(
                           _calendarMonth.year, _calendarMonth.month + 1, 1);
@@ -568,9 +664,10 @@ class _MainScreenState extends State<MainScreen> {
                           child: Center(
                             child: Text(w,
                                 style: const TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textMuted)),
+                                    color: AppColors.textMuted,
+                                    fontFamily: 'Open Sans')),
                           ),
                         ))
                     .toList(),
@@ -596,8 +693,8 @@ class _MainScreenState extends State<MainScreen> {
                           },
                     child: Center(
                       child: Container(
-                        width: 36,
-                        height: 36,
+                        width: 40,
+                        height: 40,
                         decoration: selected
                             ? const BoxDecoration(
                                 color: AppColors.primary, shape: BoxShape.circle)
@@ -611,6 +708,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: Text(
                             '${day.day}',
                             style: TextStyle(
+                              fontSize: 15,
                               color: selected
                                   ? Colors.white
                                   : (weekend
@@ -619,8 +717,9 @@ class _MainScreenState extends State<MainScreen> {
                                           ? AppColors.primary
                                           : AppColors.textPrimary)),
                               fontWeight: selected || isToday
-                                  ? FontWeight.bold
+                                  ? FontWeight.w700
                                   : FontWeight.normal,
+                              fontFamily: 'Open Sans',
                             ),
                           ),
                         ),
@@ -629,21 +728,23 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
               GestureDetector(
                 onTap: () => setState(() => _showDatePicker = false),
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF1F3F4),
-                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Center(
                     child: Text('Fechar',
                         style: TextStyle(
-                            color: AppColors.textPrimary,
-                            fontWeight: FontWeight.w600)),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                            fontFamily: 'Open Sans')),
                   ),
                 ),
               ),

@@ -69,47 +69,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 : ListView(
                     padding: const EdgeInsets.all(12),
                     children: [
-                      _card('Itens tratados',
+                      _card(Icons.check_circle, 'Itens tratados',
                           _cards != null ? '${_cards!.treatedItemsQuantity} (${_cards!.treatedItemsPercentage}%)' : '—'),
-                      _card('Departamentos tratados',
+                      _card(Icons.business, 'Departamentos tratados',
                           _cards != null ? '${_cards!.treatedDepartmentsQuantity} (${_cards!.treatedDepartmentsPercentage}%)' : '—'),
-                      _card('Itens sem venda tratados', _unsoldValue.isNotEmpty ? _unsoldValue : '—'),
-                      const Text('Rotina da semana',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary)),
+                      _card(Icons.remove_shopping_cart, 'Itens sem venda tratados', _unsoldValue.isNotEmpty ? _unsoldValue : '—'),
+                      _sectionTitle(Icons.calendar_today, 'Rotina da semana'),
                       const SizedBox(height: 8),
                       _cardColumn(
                         _routineStatus.isEmpty
                             ? [const Text('Sem dados',
-                                style: TextStyle(fontSize: 13, color: AppColors.textHint))]
+                                style: TextStyle(fontSize: 14, color: AppColors.textHint, fontFamily: 'Open Sans'))]
                             : _routineStatus
                                 .map((item) => _answerRow(
                                     item.status, _routineValue(item)))
                                 .toList(),
                       ),
-                      const Text('Tratamentos por resposta',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary)),
+                      _sectionTitle(Icons.pie_chart, 'Tratamentos por resposta'),
                       const SizedBox(height: 8),
                       _cardColumn([
                         const Text('Hoje',
                             style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 14,
                                 color: AppColors.textMuted,
-                                fontWeight: FontWeight.w600)),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Open Sans')),
                         _answerList(_treatedByAnswers),
                       ]),
                       const SizedBox(height: 10),
                       _cardColumn([
                         const Text('Itens sem venda',
                             style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 14,
                                 color: AppColors.textMuted,
-                                fontWeight: FontWeight.w600)),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Open Sans')),
                         _answerList(_unsoldAnswers),
                       ]),
                     ],
@@ -124,25 +118,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+          top: MediaQuery.of(context).padding.top, left: 12, right: 12),
       child: SizedBox(
-        height: 56,
+        height: 64,
         child: Row(
           children: [
             GestureDetector(
               onTap: () => Navigator.of(context).pop(),
-              child: const SizedBox(
-                width: 40,
-                height: 40,
-                child: Center(
-                  child: Text('‹', style: TextStyle(fontSize: 32, color: AppColors.textPrimary)),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Center(
+                  child: Icon(Icons.arrow_back, color: Colors.white, size: 26),
                 ),
               ),
             ),
             const Expanded(
               child: Text('Painel de indicadores',
                   style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                      fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.primary, fontFamily: 'Open Sans')),
             ),
           ],
         ),
@@ -150,7 +148,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _card(String title, String value) {
+  Widget _sectionTitle(IconData icon, String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.primary, size: 22),
+          const SizedBox(width: 8),
+          Text(title,
+              style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                  fontFamily: 'Open Sans')),
+        ],
+      ),
+    );
+  }
+
+  Widget _card(IconData icon, String title, String value) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(15),
@@ -162,12 +178,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title,
-              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary, fontFamily: 'Open Sans', fontWeight: FontWeight.w500)),
-          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(icon, color: AppColors.primary, size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(title,
+                    style: const TextStyle(fontSize: 15, color: AppColors.textSecondary, fontFamily: 'Open Sans', fontWeight: FontWeight.w500)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
           Text(value,
               style: const TextStyle(
-                  fontSize: 24, fontWeight: FontWeight.w700, color: AppColors.primary, fontFamily: 'Open Sans')),
+                  fontSize: 26, fontWeight: FontWeight.w700, color: AppColors.primary, fontFamily: 'Open Sans')),
         ],
       ),
     );
@@ -196,11 +220,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Expanded(
             child: Text(question,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF3D3D3D), fontFamily: 'Open Sans')),
+                style: const TextStyle(fontSize: 14, color: Color(0xFF3D3D3D), fontFamily: 'Open Sans')),
           ),
           Text(value,
               style: const TextStyle(
-                  fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
+                  fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
         ],
       ),
     );
@@ -209,7 +233,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _answerList(List<ByAnswerItem> items) {
     if (items.isEmpty) {
       return const Text('Sem respostas',
-          style: TextStyle(fontSize: 13, color: AppColors.textHint));
+          style: TextStyle(fontSize: 14, color: AppColors.textHint, fontFamily: 'Open Sans'));
     }
     return Column(
       children: items.asMap().entries.map((e) {

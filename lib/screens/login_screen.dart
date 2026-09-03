@@ -90,27 +90,30 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppColors.background,
         body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(28),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/logo_rotina.png', width: 96, height: 96),
-              const SizedBox(height: 8),
+              Image.asset('assets/logo_rotina.png', width: 110, height: 110),
+              const SizedBox(height: 12),
               const Text('Rotina Comercial',
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary)),
-              const SizedBox(height: 24),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                      fontFamily: 'Open Sans')),
+              const SizedBox(height: 32),
               TextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(fontSize: 16, fontFamily: 'Open Sans'),
                 decoration: _inputDecoration('E-mail'),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
               TextField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
+                style: const TextStyle(fontSize: 16, fontFamily: 'Open Sans'),
                 decoration: _inputDecoration('Senha').copyWith(
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -124,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               _primaryButton('ENTRAR', _handleLogin),
               const SizedBox(height: 12),
               _secondaryButton('ENTRAR COM TOKEN', () {
@@ -146,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
       hintStyle: const TextStyle(color: Color(0xFFB3B3B3), fontFamily: 'Open Sans', fontSize: 16),
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4),
         borderSide: const BorderSide(color: Color(0xFFC8C6C4)),
@@ -161,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _primaryButton(String label, VoidCallback onPressed) {
     return SizedBox(
       width: double.infinity,
-      height: 40,
+      height: 48,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
@@ -174,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: onPressed,
         child: Text(label,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Open Sans')),
+                color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16, fontFamily: 'Open Sans')),
       ),
     );
   }
@@ -182,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _secondaryButton(String label, VoidCallback onPressed) {
     return SizedBox(
       width: double.infinity,
-      height: 40,
+      height: 48,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.buttonSecondary,
@@ -195,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: onPressed,
         child: Text(label,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Open Sans')),
+                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15, fontFamily: 'Open Sans')),
       ),
     );
   }

@@ -112,26 +112,19 @@ class _DepartmentDetailScreenState extends State<DepartmentDetailScreen> {
     final treatedCount = _list.where((i) => i.treated).length;
     final allTreated = _list.isNotEmpty && treatedCount == _list.length;
 
-    String? statusIcon;
-    if (blocked) {
-      statusIcon = 'assets/ic_block.png';
-    } else if (allTreated) {
-      statusIcon = 'assets/ic_check.png';
-    }
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
           Column(
             children: [
-              _toolbar(statusIcon),
+              _toolbar(allTreated, blocked),
               Expanded(
                 child: _saving
                     ? const Center(
                         child: CircularProgressIndicator(color: AppColors.primary))
                     : ListView.builder(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(10),
                         itemCount: _list.length,
                         itemBuilder: (context, index) {
                           final item = _list[index];
@@ -170,34 +163,42 @@ class _DepartmentDetailScreenState extends State<DepartmentDetailScreen> {
     );
   }
 
-  Widget _toolbar(String? statusIcon) {
+  Widget _toolbar(bool allTreated, bool blocked) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+          top: MediaQuery.of(context).padding.top, left: 12, right: 12),
       child: SizedBox(
-        height: 56,
+        height: 64,
         child: Row(
           children: [
             GestureDetector(
               onTap: () => Navigator.of(context).pop(),
-              child: const SizedBox(
-                width: 40,
-                height: 40,
-                child: Center(
-                  child: Text('‹', style: TextStyle(fontSize: 32, color: AppColors.textPrimary)),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Center(
+                  child: Icon(Icons.arrow_back, color: Colors.white, size: 26),
                 ),
               ),
             ),
+            const SizedBox(width: 8),
             Expanded(
               child: Text('$_deptCode - $_deptName',
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                      fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.textPrimary, fontFamily: 'Open Sans'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
             ),
-            if (statusIcon != null)
-              Image.asset(statusIcon, width: 24, height: 24),
+            const SizedBox(width: 8),
+            if (allTreated)
+              const Icon(Icons.check_circle, color: AppColors.success, size: 26)
+            else if (blocked)
+              Image.asset('assets/ic_block.png', width: 26, height: 26),
           ],
         ),
       ),
