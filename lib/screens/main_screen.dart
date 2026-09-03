@@ -739,24 +739,55 @@ class _MainScreenState extends State<MainScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 14),
-              GestureDetector(
-                onTap: () => setState(() => _showDatePicker = false),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(4),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        final today = clampToWeekday(DateTime.now());
+                        controller.selectedDate = today;
+                        setState(() => _showDatePicker = false);
+                        controller.loadDataForDate(today);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Center(
+                          child: Text('Ir para hoje',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                  fontFamily: 'Open Sans')),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: const Center(
-                    child: Text('Fechar',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                            fontFamily: 'Open Sans')),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => setState(() => _showDatePicker = false),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF1F3F4),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Center(
+                          child: Text('Fechar',
+                              style: TextStyle(
+                                  color: AppColors.textPrimary,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  fontFamily: 'Open Sans')),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
