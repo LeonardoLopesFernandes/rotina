@@ -165,7 +165,7 @@ class _MainScreenState extends State<MainScreen> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Center(
-                  child: Icon(Icons.calendar_today, color: Colors.white, size: 26),
+                  child: Icon(Icons.menu, color: Colors.white, size: 26),
                 ),
               ),
             ),
