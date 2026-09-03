@@ -48,14 +48,15 @@ class DepartmentCard extends StatelessWidget {
                       child: Text(
                         '${department.department.code} - ${department.department.name}',
                         style: const TextStyle(
-                          fontSize: 16,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Open Sans',
                         ),
                       ),
                     ),
                     if (statusIcon != null)
-                      Image.asset(statusIcon, width: 20, height: 20),
+                      Image.asset(statusIcon, width: 18, height: 18),
                   ],
                 ),
               ),
@@ -67,31 +68,39 @@ class DepartmentCard extends StatelessWidget {
                     onTap: () => onViewAll(department),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 6),
+                          horizontal: 14, vertical: 5),
                       decoration: BoxDecoration(
                         color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(999),
+                        borderRadius: BorderRadius.circular(4),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x47000000),
+                            blurRadius: 3.6,
+                            offset: Offset(0, 1.6),
+                          ),
+                        ],
                       ),
                       child: const Text(
                         'VER TUDO',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Open Sans',
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    top: -4,
-                    right: -4,
+                    top: -6,
+                    right: -6,
                     child: Container(
                       constraints:
-                          const BoxConstraints(minWidth: 18, minHeight: 18),
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                          const BoxConstraints(minWidth: 20, minHeight: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryDark,
-                        borderRadius: BorderRadius.circular(9),
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: Colors.white, width: 1.5),
                       ),
                       child: Center(
@@ -100,7 +109,8 @@ class DepartmentCard extends StatelessWidget {
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Open Sans',
                           ),
                         ),
                       ),

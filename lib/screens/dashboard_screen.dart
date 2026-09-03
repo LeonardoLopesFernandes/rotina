@@ -153,20 +153,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _card(String title, String value) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFC7C7C7)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary)),
+              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary, fontFamily: 'Open Sans', fontWeight: FontWeight.w500)),
           const SizedBox(height: 4),
           Text(value,
               style: const TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                  fontSize: 24, fontWeight: FontWeight.w700, color: AppColors.primary, fontFamily: 'Open Sans')),
         ],
       ),
     );
@@ -175,10 +176,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _cardColumn(List<Widget> children) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFC7C7C7)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,11 +196,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Expanded(
             child: Text(question,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF333333))),
+                style: const TextStyle(fontSize: 13, color: Color(0xFF3D3D3D), fontFamily: 'Open Sans')),
           ),
           Text(value,
               style: const TextStyle(
-                  fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.bold)),
+                  fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
         ],
       ),
     );

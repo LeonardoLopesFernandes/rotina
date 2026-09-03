@@ -52,14 +52,15 @@ class TreatmentBadgeModal extends StatelessWidget {
                 children: [
                   const Text('Tratamento',
                       style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary)),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                          fontFamily: 'Open Sans')),
                   const SizedBox(height: 12),
                   _row('Tratado por:', treatedBy),
                   _row('Data/hora:', treatedAt),
                   const Text('Respostas:',
-                      style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
+                      style: TextStyle(fontSize: 12, color: AppColors.textMuted, fontFamily: 'Open Sans')),
                   Flexible(
                     child: SingleChildScrollView(
                       child: answers != null
@@ -78,14 +79,26 @@ class TreatmentBadgeModal extends StatelessWidget {
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        active ? '✓' : '×',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
+                                      Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
                                           color: active
-                                              ? const Color(0xFF4CAF50)
-                                              : const Color(0xFFD32F2F),
+                                              ? AppColors.success.withOpacity(0.15)
+                                              : AppColors.danger.withOpacity(0.15),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            active ? '✓' : '×',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                              color: active
+                                                  ? AppColors.success
+                                                  : AppColors.danger,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 8),
@@ -93,7 +106,10 @@ class TreatmentBadgeModal extends StatelessWidget {
                                         child: Text(
                                           '${e.key + 1} - ${shortQuestions[e.key]}',
                                           style: const TextStyle(
-                                            fontSize: 12, color: Color(0xFF333333)),
+                                            fontSize: 13,
+                                            color: Color(0xFF3D3D3D),
+                                            fontFamily: 'Open Sans',
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -110,15 +126,22 @@ class TreatmentBadgeModal extends StatelessWidget {
                     onTap: onClose,
                     child: Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
                         color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(AppRadius.md),
+                        borderRadius: BorderRadius.circular(4),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x47000000),
+                            blurRadius: 3.6,
+                            offset: Offset(0, 1.6),
+                          ),
+                        ],
                       ),
                       child: const Center(
                         child: Text('Fechar',
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.bold)),
+                                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Open Sans')),
                       ),
                     ),
                   ),

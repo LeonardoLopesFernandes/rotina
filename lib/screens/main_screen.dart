@@ -166,26 +166,28 @@ class _MainScreenState extends State<MainScreen> {
                 const SizedBox(width: 6),
                 const Text('Rotina Comercial',
                     style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary)),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
+                        fontFamily: 'Open Sans')),
               ],
             ),
           ),
           GestureDetector(
             onTap: () => setState(() => _showLogout = true),
             child: Container(
-              width: 32,
-              height: 32,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.userCircle,
                 shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 3),
                 boxShadow: const [
-                  BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
+                  BoxShadow(color: Color(0x03000000), blurRadius: 12, offset: Offset(0, 8)),
                 ],
               ),
               child: Center(
-                child: Image.asset('assets/ic_user.png', width: 24, height: 24),
+                child: Image.asset('assets/ic_user.png', width: 26, height: 26),
               ),
             ),
           ),

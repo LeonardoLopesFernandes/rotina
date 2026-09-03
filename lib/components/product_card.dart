@@ -62,9 +62,12 @@ class _ProductCardState extends State<ProductCard> {
       child: Container(
         margin: const EdgeInsets.only(bottom: 2),
         decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFFEEEEEE)),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: const Color(0xFFBEBEBE)),
+          boxShadow: const [
+            BoxShadow(color: Color(0x1AC9C9C9), blurRadius: 10, offset: Offset(3, 3)),
+          ],
         ),
         clipBehavior: Clip.hardEdge,
         child: Column(
@@ -83,8 +86,8 @@ class _ProductCardState extends State<ProductCard> {
                         margin: const EdgeInsets.symmetric(horizontal: 2),
                         padding: const EdgeInsets.symmetric(vertical: 2),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: active ? AppColors.statActiveBg : null,
+                          borderRadius: BorderRadius.circular(4),
+                          color: active ? AppColors.primary : null,
                         ),
                         child: Column(
                           children: [
@@ -92,9 +95,10 @@ class _ProductCardState extends State<ProductCard> {
                               stats[index],
                               style: TextStyle(
                                 fontSize: 10,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Open Sans',
                                 color: active
-                                    ? AppColors.statActiveText
+                                    ? AppColors.white
                                     : AppColors.textSecondary,
                               ),
                             ),
@@ -102,9 +106,10 @@ class _ProductCardState extends State<ProductCard> {
                               statsValues[index],
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Open Sans',
                                 color: active
-                                    ? AppColors.statActiveText
+                                    ? AppColors.white
                                     : AppColors.textPrimary,
                               ),
                             ),
@@ -116,7 +121,7 @@ class _ProductCardState extends State<ProductCard> {
                 }),
               ),
             ),
-            const Divider(height: 1, color: Color(0xFFEEEEEE)),
+            const Divider(height: 1, color: Color(0xFFECECEC)),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -130,7 +135,8 @@ class _ProductCardState extends State<ProductCard> {
                           style: const TextStyle(
                             fontSize: 14,
                             color: AppColors.textPrimary,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Open Sans',
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -139,7 +145,8 @@ class _ProductCardState extends State<ProductCard> {
                           '${widget.item.ean} | ${widget.item.sap}',
                           style: const TextStyle(
                             fontSize: 10,
-                            color: AppColors.textSecondary,
+                            color: AppColors.textMuted,
+                            fontFamily: 'Open Sans',
                           ),
                         ),
                       ],
@@ -147,7 +154,19 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                   GestureDetector(
                     onTap: _handleStatusPress,
-                    child: Image.asset(_statusAsset(), width: 20, height: 20),
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: widget.item.treated
+                            ? AppColors.success.withOpacity(0.15)
+                            : (widget.blocked ? AppColors.danger.withOpacity(0.15) : AppColors.primary.withOpacity(0.1)),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Image.asset(_statusAsset(), width: 18, height: 18),
+                      ),
+                    ),
                   ),
                 ],
               ),

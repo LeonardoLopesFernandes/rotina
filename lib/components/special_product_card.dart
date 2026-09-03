@@ -39,8 +39,14 @@ class SpecialProductCard extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: AppColors.card,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFFEEEEEE)),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: treated
+                ? AppColors.success.withOpacity(0.3)
+                : blocked
+                    ? const Color(0xFFD32F2F).withOpacity(0.3)
+                    : const Color(0xFFC7C7C7),
+          ),
         ),
         child: Row(
           children: [
@@ -52,17 +58,20 @@ class SpecialProductCard extends StatelessWidget {
                     item.description,
                     style: const TextStyle(
                       fontSize: 13,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.textPrimary,
+                      fontFamily: 'Open Sans',
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  const SizedBox(height: 2),
                   Text(
                     '${item.ean} | ${item.sap}',
                     style: const TextStyle(
                       fontSize: 10,
                       color: AppColors.textSecondary,
+                      fontFamily: 'Open Sans',
                     ),
                   ),
                   Text(
@@ -70,6 +79,7 @@ class SpecialProductCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 10,
                       color: AppColors.textMuted,
+                      fontFamily: 'Open Sans',
                     ),
                   ),
                 ],
@@ -78,14 +88,22 @@ class SpecialProductCard extends StatelessWidget {
             SizedBox(
               width: 70,
               child: treated
-                  ? const Text(
-                      '✓ Tratado',
-                      style: TextStyle(
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
                         color: AppColors.success,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      textAlign: TextAlign.end,
+                      child: const Text(
+                        '✓ Tratado',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          fontFamily: 'Open Sans',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     )
                   : blocked
                       ? Image.asset('assets/ic_block.png', width: 20, height: 20)

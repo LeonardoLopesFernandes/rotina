@@ -137,10 +137,10 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Text(text,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: textColor)),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: textColor, fontFamily: 'Open Sans')),
     );
   }
 
@@ -153,9 +153,10 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFFFEE2E2) : Colors.white,
           border: Border.all(
-            color: isSelected ? AppColors.primary : const Color(0xFFE0E0E0),
+            color: isSelected ? AppColors.primary : const Color(0xFFC7C7C7),
+            width: isSelected ? 2 : 1,
           ),
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
           children: [
@@ -172,13 +173,13 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
               alignment: Alignment.center,
               child: isSelected
                   ? const Text('✓',
-                      style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold))
+                      style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700, fontFamily: 'Open Sans'))
                   : null,
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(label,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF0F172A))),
+                  style: const TextStyle(fontSize: 14, color: Color(0xFF0F172A), fontFamily: 'Open Sans')),
             ),
           ],
         ),
@@ -192,10 +193,10 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           Text('Deseja confirmar que este item está OK?',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.textPrimary, fontFamily: 'Open Sans')),
           SizedBox(height: 4),
           Text('Nenhum problema selecionado',
-              style: TextStyle(fontSize: 14, color: AppColors.textMuted)),
+              style: TextStyle(fontSize: 14, color: AppColors.textMuted, fontFamily: 'Open Sans')),
         ],
       );
     }
@@ -206,11 +207,11 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Deseja registrar o problema selecionado?',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.textPrimary, fontFamily: 'Open Sans')),
         Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text('$_selectedNumber - $q',
-              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary)),
+              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary, fontFamily: 'Open Sans')),
         ),
       ],
     );
@@ -223,7 +224,7 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
         children: [
           _button('Voltar', const Color(0xFFF1F3F4), AppColors.textPrimary, false,
               () => setState(() => _showConfirmation = false)),
-          _button('Sim, confirmar', const Color(0xFFF3010B), Colors.white, false,
+          _button('Sim, confirmar', AppColors.danger, Colors.white, false,
               _handleConfirm),
         ],
       );
@@ -235,7 +236,7 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
             widget.onClose),
         _button(
           _treated ? 'Item já respondido' : 'Finalizar',
-          _treated ? const Color(0xFF9E9E9E) : const Color(0xFFF3010B),
+          _treated ? const Color(0xFF9E9E9E) : AppColors.danger,
           Colors.white,
           _treated,
           _treated ? null : _handleFinalize,
@@ -253,10 +254,19 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
         decoration: BoxDecoration(
           color: bg,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: bg == AppColors.danger
+              ? const [
+                  BoxShadow(
+                    color: Color(0x47000000),
+                    blurRadius: 3.6,
+                    offset: Offset(0, 1.6),
+                  ),
+                ]
+              : null,
         ),
         child: Text(label,
-            style: TextStyle(color: fg, fontWeight: FontWeight.bold)),
+            style: TextStyle(color: fg, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
       ),
     );
   }

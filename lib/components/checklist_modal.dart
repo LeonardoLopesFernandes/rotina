@@ -96,17 +96,29 @@ class _ChecklistModalState extends State<ChecklistModal> {
               ),
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Checklist do item',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.item?.description ?? 'Checklist do item',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                          fontFamily: 'Open Sans',
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'EAN: ${widget.item?.ean ?? ''} / SAP: ${widget.item?.sap ?? ''}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textMuted,
+                          fontFamily: 'Open Sans',
+                        ),
+                      ),
                     const SizedBox(height: 12),
                     if (_blocked)
                       _stateBox('🔒 ${getBlockedMessage()}', AppColors.danger,
@@ -167,11 +179,12 @@ class _ChecklistModalState extends State<ChecklistModal> {
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFFEE2E2) : Colors.white,
+          color: isSelected ? const Color(0xFFFF0037).withOpacity(0.1) : Colors.white,
           border: Border.all(
-            color: isSelected ? AppColors.primary : const Color(0xFFE0E0E0),
+            color: isSelected ? AppColors.primary : const Color(0xFFC8C6C4),
+            width: isSelected ? 2 : 1,
           ),
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
           children: [
@@ -197,7 +210,9 @@ class _ChecklistModalState extends State<ChecklistModal> {
                 label,
                 style: TextStyle(
                   fontSize: 14,
-                  color: const Color(0xFF0F172A)
+                  fontFamily: 'Open Sans',
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF3D3D3D)
                       .withOpacity(disabled ? 0.5 : 1),
                 ),
               ),
@@ -271,14 +286,24 @@ class _ChecklistModalState extends State<ChecklistModal> {
       onTap: disabled ? null : onPressed,
       child: Container(
         margin: const EdgeInsets.only(left: 8),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: disabled ? const Color(0xFF9E9E9E) : bg,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: disabled ? null : [
+            BoxShadow(
+              color: const Color(0x47000000),
+              blurRadius: 3.6,
+              offset: const Offset(0, 1.6),
+            ),
+          ],
         ),
         child: Text(label,
             style: TextStyle(
-                color: disabled ? Colors.white : fg, fontWeight: FontWeight.bold)),
+                color: disabled ? Colors.white : fg,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                fontFamily: 'Open Sans')),
       ),
     );
   }

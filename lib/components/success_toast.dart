@@ -64,10 +64,11 @@ class _SuccessToastState extends State<SuccessToast>
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(AppRadius.lg),
+                borderRadius: BorderRadius.circular(4),
                 boxShadow: const [
                   BoxShadow(color: Color(0x33000000), blurRadius: 8, offset: Offset(0, 2)),
                 ],
+                border: Border.all(color: const Color(0xFFC7C7C7)),
               ),
               child: Row(
                 children: [
@@ -81,7 +82,7 @@ class _SuccessToastState extends State<SuccessToast>
                     alignment: Alignment.center,
                     child: const Text('✓',
                         style: TextStyle(
-                            color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                            color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Open Sans')),
                   ),
                   const SizedBox(width: 12),
                   const Expanded(
@@ -89,12 +90,13 @@ class _SuccessToastState extends State<SuccessToast>
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary)),
+                            color: AppColors.textPrimary,
+                            fontFamily: 'Open Sans')),
                   ),
                   GestureDetector(
                     onTap: widget.onHide,
                     child: const Text('×',
-                        style: TextStyle(fontSize: 24, color: AppColors.textHint)),
+                        style: TextStyle(fontSize: 24, color: AppColors.textHint, fontFamily: 'Open Sans')),
                   ),
                 ],
               ),

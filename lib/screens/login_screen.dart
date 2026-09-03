@@ -143,17 +143,17 @@ class _LoginScreenState extends State<LoginScreen> {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(color: Color(0xFF8E8E93)),
+      hintStyle: const TextStyle(color: Color(0xFFB3B3B3), fontFamily: 'Open Sans', fontSize: 16),
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Color(0xFFC8C6C4)),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Color(0xFFC8C6C4)),
       ),
     );
   }
@@ -161,18 +161,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _primaryButton(String label, VoidCallback onPressed) {
     return SizedBox(
       width: double.infinity,
+      height: 40,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: BorderRadius.circular(4),
           ),
+          elevation: 2,
         ),
         onPressed: onPressed,
         child: Text(label,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Open Sans')),
       ),
     );
   }
@@ -180,19 +182,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _secondaryButton(String label, VoidCallback onPressed) {
     return SizedBox(
       width: double.infinity,
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          side: const BorderSide(color: AppColors.primary),
+      height: 40,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.buttonSecondary,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: BorderRadius.circular(4),
           ),
+          elevation: 1,
         ),
         onPressed: onPressed,
         child: Text(label,
             style: const TextStyle(
-                color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 14)),
+                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Open Sans')),
       ),
     );
   }
