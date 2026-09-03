@@ -77,7 +77,7 @@ class DepartmentCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                const Spacer(),
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
