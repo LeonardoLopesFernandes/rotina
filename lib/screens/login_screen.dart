@@ -77,14 +77,16 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
         final focus = FocusManager.instance.primaryFocus;
         if (focus != null && focus.hasFocus) {
           focus.unfocus();
-          return false;
+          return;
         }
-        return true;
+        Navigator.of(context).pop();
       },
       child: Scaffold(
         backgroundColor: AppColors.background,

@@ -61,39 +61,38 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final controller = context.watch<DepartmentsController>();
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
         // Always dismiss keyboard first if open
         final focus = FocusManager.instance.primaryFocus;
         if (focus != null && focus.hasFocus) {
           focus.unfocus();
-          // Wait a frame for keyboard to animate away
-          await Future.delayed(const Duration(milliseconds: 100));
-          return false;
+          return;
         }
         if (_showMenu) {
           setState(() => _showMenu = false);
-          return false;
+          return;
         }
         if (_showLogout) {
           setState(() => _showLogout = false);
-          return false;
+          return;
         }
-        if (_showExit) return false;
+        if (_showExit) return;
         if (_showDatePicker) {
           setState(() => _showDatePicker = false);
-          return false;
+          return;
         }
         if (_checklistItem != null) {
           setState(() => _checklistItem = null);
-          return false;
+          return;
         }
         if (_badgeItem != null) {
           setState(() => _badgeItem = null);
-          return false;
+          return;
         }
         setState(() => _showExit = true);
-        return false;
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
