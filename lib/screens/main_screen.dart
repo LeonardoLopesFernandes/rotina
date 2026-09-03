@@ -63,9 +63,12 @@ class _MainScreenState extends State<MainScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        // Always dismiss keyboard first if open
         final focus = FocusManager.instance.primaryFocus;
         if (focus != null && focus.hasFocus) {
           focus.unfocus();
+          // Wait a frame for keyboard to animate away
+          await Future.delayed(const Duration(milliseconds: 100));
           return false;
         }
         if (_showMenu) {
@@ -157,15 +160,11 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             GestureDetector(
               onTap: () => setState(() => _showMenu = true),
-              child: Container(
+              child: const SizedBox(
                 width: 44,
                 height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Center(
-                  child: Icon(Icons.menu, color: Colors.white, size: 26),
+                child: Center(
+                  child: Icon(Icons.menu, color: AppColors.primary, size: 30),
                 ),
               ),
             ),
