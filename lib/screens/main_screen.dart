@@ -617,6 +617,14 @@ class _MainScreenState extends State<MainScreen> {
     }
     while (cells.length % 7 != 0) cells.add(null);
 
+    // Current week range: Monday to Friday of the week containing today
+    final now = DateTime.now();
+    final currentWeekday = now.weekday; // 1=Mon, 7=Sun
+    final weekStart = now.subtract(Duration(days: currentWeekday - 1));
+    final weekEnd = weekStart.add(const Duration(days: 4)); // Friday
+    final weekStartDay = DateTime(weekStart.year, weekStart.month, weekStart.day);
+    final weekEndDay = DateTime(weekEnd.year, weekEnd.month, weekEnd.day);
+
     return Container(
       color: const Color(0x66000000),
       child: Center(
@@ -680,11 +688,14 @@ class _MainScreenState extends State<MainScreen> {
                 childAspectRatio: 1,
                 children: cells.map((day) {
                   if (day == null) return const SizedBox.shrink();
-                  final weekend = day.weekday == 6 || day.weekday == 7;
+                  final dayOnly = DateTime(day.year, day.month, day.day);
+                  final isWeekday = day.weekday >= 1 && day.weekday <= 5;
+                  final inCurrentWeek = !dayOnly.isBefore(weekStartDay) && !dayOnly.isAfter(weekEndDay);
+                  final isEnabled = isWeekday && inCurrentWeek;
                   final selected = sameDay(day, controller.selectedDate);
                   final isToday = sameDay(day, DateTime.now());
                   return GestureDetector(
-                    onTap: weekend && !selected
+                    onTap: !isEnabled
                         ? null
                         : () {
                             controller.selectedDate = day;
@@ -698,7 +709,7 @@ class _MainScreenState extends State<MainScreen> {
                         decoration: selected
                             ? const BoxDecoration(
                                 color: AppColors.primary, shape: BoxShape.circle)
-                            : (isToday
+                            : (isToday && isEnabled
                                 ? BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: AppColors.primary),
@@ -711,12 +722,12 @@ class _MainScreenState extends State<MainScreen> {
                               fontSize: 15,
                               color: selected
                                   ? Colors.white
-                                  : (weekend
-                                      ? AppColors.textHint
-                                      : (isToday
+                                  : (isEnabled
+                                      ? (isToday
                                           ? AppColors.primary
-                                          : AppColors.textPrimary)),
-                              fontWeight: selected || isToday
+                                          : AppColors.textPrimary)
+                                      : AppColors.textHint),
+                              fontWeight: selected || (isToday && isEnabled)
                                   ? FontWeight.w700
                                   : FontWeight.normal,
                               fontFamily: 'Open Sans',

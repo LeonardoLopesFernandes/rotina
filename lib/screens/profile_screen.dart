@@ -11,7 +11,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-    final userName = auth.userName.isNotEmpty ? auth.userName : 'Usuário';
+    final tokenName = auth.token != null ? _extractName(auth.token!) : '';
+    final userName = tokenName.isNotEmpty
+        ? tokenName
+        : (auth.userName.isNotEmpty ? auth.userName : 'Usuário');
     final email = auth.token != null ? _extractEmail(auth.token!) : '';
 
     return Scaffold(
@@ -144,25 +147,39 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  static String _extractEmail(String token) {
+  static Map<String, dynamic>? _decodeToken(String token) {
     try {
       final parts = token.split('.');
-      if (parts.length < 2) return '';
+      if (parts.length < 2) return null;
       String payload = parts[1];
-      // Pad base64url string
       while (payload.length % 4 != 0) {
         payload += '=';
       }
       payload = payload.replaceAll('-', '+').replaceAll('_', '/');
       final decoded = utf8.decode(base64.decode(payload));
-      final map = jsonDecode(decoded) as Map<String, dynamic>;
-      final user = map['user'];
-      if (user != null && user is Map) {
-        return user['email'] ?? '';
-      }
-      return '';
+      return jsonDecode(decoded) as Map<String, dynamic>;
     } catch (_) {
-      return '';
+      return null;
     }
+  }
+
+  static String _extractName(String token) {
+    final map = _decodeToken(token);
+    if (map == null) return '';
+    final user = map['user'];
+    if (user != null && user is Map) {
+      return user['nome'] ?? '';
+    }
+    return '';
+  }
+
+  static String _extractEmail(String token) {
+    final map = _decodeToken(token);
+    if (map == null) return '';
+    final user = map['user'];
+    if (user != null && user is Map) {
+      return user['email'] ?? '';
+    }
+    return '';
   }
 }

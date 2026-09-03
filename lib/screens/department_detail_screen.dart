@@ -172,32 +172,35 @@ class _DepartmentDetailScreenState extends State<DepartmentDetailScreen> {
         height: 64,
         child: Row(
           children: [
-            GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Center(
-                  child: Icon(Icons.arrow_back, color: Colors.white, size: 26),
-                ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text('$_deptCode - $_deptName',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.textPrimary, fontFamily: 'Open Sans'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  if (allTreated) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 26,
+                      height: 26,
+                      decoration: BoxDecoration(
+                        color: AppColors.success,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: const Center(
+                        child: Icon(Icons.check, color: Colors.white, size: 16),
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text('$_deptCode - $_deptName',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w700, color: AppColors.textPrimary, fontFamily: 'Open Sans'),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis),
-            ),
-            const SizedBox(width: 8),
-            if (allTreated)
-              const Icon(Icons.check_circle, color: AppColors.success, size: 26)
-            else if (blocked)
+            if (blocked)
               Image.asset('assets/ic_block.png', width: 26, height: 26),
           ],
         ),
