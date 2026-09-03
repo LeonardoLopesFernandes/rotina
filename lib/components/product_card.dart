@@ -213,7 +213,10 @@ class _ProductCardState extends State<ProductCard>
                             child: Transform(
                               alignment: Alignment.center,
                               transform: Matrix4.identity()
-                                ..rotateZ(rotation * 3.14159)
+                                ..scale(
+                                  (1 - rotation * 2).abs(),
+                                  1.0,
+                                )
                                 ..scale(scale),
                               child: Image.asset(
                                 showCheck ? 'assets/ic_check.png' : 'assets/ic_lapis.png',

@@ -40,43 +40,36 @@ class DepartmentCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: [
-                Flexible(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          '${department.department.code} - ${department.department.name}',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Open Sans',
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (allTreated) ...[
-                        const SizedBox(width: 6),
-                        Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            color: AppColors.success,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2.5),
-                          ),
-                          child: const Center(
-                            child: Icon(Icons.check, color: Colors.white, size: 14),
-                          ),
-                        ),
-                      ] else if (blocked) ...[
-                        const SizedBox(width: 6),
-                        Image.asset('assets/ic_block.png', width: 22, height: 22),
-                      ],
-                    ],
+                Expanded(
+                  child: Text(
+                    '${department.department.code} - ${department.department.name}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Open Sans',
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                if (allTreated) ...[
+                  const SizedBox(width: 6),
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: AppColors.success,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2.5),
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.check, color: Colors.white, size: 14),
+                    ),
+                  ),
+                ] else if (blocked) ...[
+                  const SizedBox(width: 6),
+                  Image.asset('assets/ic_block.png', width: 22, height: 22),
+                ],
                 const Spacer(),
                 Stack(
                   clipBehavior: Clip.none,

@@ -137,14 +137,29 @@ class Session {
     return StoredTreatment.fromJson(json);
   }
 
+  static Future<Map<String, StoredTreatment>> loadAllTreatments(String date) async {
+    final prefs = await _instance;
+    final raw = prefs.getString(_treatmentKey);
+    if (raw == null || raw.isEmpty) return {};
+    final map = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+    final result = <String, StoredTreatment>{};
+    final prefix = '$date:';
+    for (final entry in map.entries) {
+      if (entry.key.startsWith(prefix)) {
+        final ean = entry.key.substring(prefix.length);
+        result[ean] = StoredTreatment.fromJson(entry.value as Map<String, dynamic>);
+      }
+    }
+    return result;
+  }
+
   static bool _hasInvalidApiAnswers(Item item) {
     return item.answers != null &&
         item.answers!.isNotEmpty &&
         item.answers!.every((a) => a.number == 0);
   }
 
-  static Future<Item> applyToItem(String date, Item item) async {
-    final stored = await loadTreatment(date, item.ean);
+  static Item applyStoredToItem(StoredTreatment? stored, Item item) {
     if (stored == null || !stored.treated) {
       return item;
     }
@@ -161,5 +176,10 @@ class Session {
       treatedBy: stored.treatedBy ?? item.treatedBy,
       answers: mergedAnswers,
     );
+  }
+
+  static Future<Item> applyToItem(String date, Item item) async {
+    final stored = await loadTreatment(date, item.ean);
+    return applyStoredToItem(stored, item);
   }
 }

@@ -37,12 +37,15 @@ class DepartmentsController with ChangeNotifier {
       final storageDate = formatStorageDate(date);
       final items = await getItems(dateApi);
 
+      final allTreatments = await Session.loadAllTreatments(storageDate);
+
       final merged = <Department>[];
       for (final dept in items) {
         final itemsWithCode = <Item>[];
         for (final item in dept.items) {
           final base = item.copyWith(departmentCode: dept.department.code);
-          final applied = await Session.applyToItem(storageDate, base);
+          final stored = allTreatments[item.ean];
+          final applied = Session.applyStoredToItem(stored, base);
           itemsWithCode.add(applied.copyWith(
             treated:
                 applied.treated || (applied.answers?.isNotEmpty ?? false),
