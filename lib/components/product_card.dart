@@ -54,6 +54,9 @@ class _ProductCardState extends State<ProductCard>
     if (!_wasTreated && widget.item.treated) {
       _wasTreated = true;
       _animController.forward(from: 0);
+    } else if (widget.item.treated && !_animController.isAnimating && _animController.value == 0) {
+      _wasTreated = true;
+      _animController.forward(from: 0);
     } else {
       _wasTreated = widget.item.treated;
     }

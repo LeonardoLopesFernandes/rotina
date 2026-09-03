@@ -116,6 +116,45 @@ class DepartmentsController with ChangeNotifier {
             })
         .toList();
 
+    final userName = await Session.getUserName();
+    final nowStr = formatIso(DateTime.now());
+    final selectedAnswers = problemNumbers
+        .map((n) => TreatedAnswer(
+              question: questions[n - 1],
+              shortQuestion: shortQuestions[n - 1],
+              answer: true,
+              number: n,
+              items: 1,
+              percentage: 100.0,
+            ))
+        .toList();
+
+    final updatedItem = item.copyWith(
+      treated: true,
+      treatedAt: nowStr,
+      treatedBy: userName,
+      answers: selectedAnswers,
+    );
+
+    await Session.saveTreatment(formatStorageDate(date), item.ean,
+        StoredTreatment(treated: true, treatedAt: nowStr, treatedBy: userName, answers: selectedAnswers));
+
+    _allDepartments = _allDepartments.map((dept) {
+      if (dept.department.code == _allDepartments[deptIndex].department.code) {
+        return Department(
+          department: dept.department,
+          items: dept.items
+              .map((i) => i.id == itemId ? updatedItem : i)
+              .toList(),
+        );
+      }
+      return dept;
+    }).toList();
+    _departments = _allDepartments;
+    _successMessage = '✅ Item salvo com sucesso!';
+    _error = null;
+    notifyListeners();
+
     try {
       final response = await saveTreatedItem(TreatedItemRequest(
         store: store,
@@ -123,62 +162,22 @@ class DepartmentsController with ChangeNotifier {
         ean: item.ean,
         answers: answers,
       ));
-
       if (!response.success) {
         _error = '❌ ${response.message ?? ''}';
         notifyListeners();
-        return;
       }
-
-      final userName = await Session.getUserName();
-      final nowStr = formatIso(DateTime.now());
-      final selectedAnswers = problemNumbers
-          .map((n) => TreatedAnswer(
-                question: questions[n - 1],
-                shortQuestion: shortQuestions[n - 1],
-                answer: true,
-                number: n,
-                items: 1,
-                percentage: 100.0,
-              ))
-          .toList();
-
-      final updatedItem = item.copyWith(
-        treated: true,
-        treatedAt: nowStr,
-        treatedBy: userName,
-        answers: selectedAnswers,
-      );
-
-      await Session.saveTreatment(formatStorageDate(date), item.ean,
-          StoredTreatment(treated: true, treatedAt: nowStr, treatedBy: userName, answers: selectedAnswers));
-
-      _allDepartments = _allDepartments.map((dept) {
-        if (dept.department.code == _allDepartments[deptIndex].department.code) {
-          return Department(
-            department: dept.department,
-            items: dept.items
-                .map((i) => i.id == itemId ? updatedItem : i)
-                .toList(),
-          );
-        }
-        return dept;
-      }).toList();
-      _departments = _allDepartments;
-      _successMessage = '✅ Item salvo com sucesso!';
-      _error = null;
     } on DioException catch (e) {
       final msg = e.message ?? '';
       if (msg.contains('400') || msg.contains('409')) {
         _error = '⚠️ Este item já foi respondido. Recarregue a lista.';
-        await loadDataForDate(date);
       } else {
         _error = mapGenericError(e);
       }
+      notifyListeners();
     } catch (e) {
       _error = mapGenericError(e);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   void clearSuccessMessage() {

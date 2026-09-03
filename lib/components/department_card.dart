@@ -44,33 +44,34 @@ class DepartmentCard extends StatelessWidget {
                   child: Text(
                     '${department.department.code} - ${department.department.name}',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Open Sans',
                     ),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
                 if (allTreated) ...[
                   const SizedBox(width: 6),
                   Container(
-                    width: 24,
-                    height: 24,
+                    width: 22,
+                    height: 22,
                     decoration: BoxDecoration(
                       color: AppColors.success,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2.5),
+                      border: Border.all(color: Colors.white, width: 2),
                     ),
                     child: const Center(
-                      child: Icon(Icons.check, color: Colors.white, size: 14),
+                      child: Icon(Icons.check, color: Colors.white, size: 13),
                     ),
                   ),
                 ] else if (blocked) ...[
                   const SizedBox(width: 6),
-                  Image.asset('assets/ic_block.png', width: 22, height: 22),
+                  Image.asset('assets/ic_block.png', width: 20, height: 20),
                 ],
-                const Spacer(),
+                const SizedBox(width: 8),
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -78,7 +79,7 @@ class DepartmentCard extends StatelessWidget {
                       onTap: () => onViewAll(department),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 6),
+                            horizontal: 14, vertical: 6),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(4),
@@ -94,7 +95,7 @@ class DepartmentCard extends StatelessWidget {
                           'VER TUDO',
                           style: TextStyle(
                             color: AppColors.primary,
-                            fontSize: 13,
+                            fontSize: 12,
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Open Sans',
                           ),

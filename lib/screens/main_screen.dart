@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:rotina_comercial/api/endpoints.dart';
 import 'package:rotina_comercial/auth/auth_provider.dart';
 import 'package:rotina_comercial/components/checklist_modal.dart';
@@ -40,16 +41,18 @@ class _MainScreenState extends State<MainScreen> {
     _blocked = isBlocked();
     final now = DateTime.now();
     _calendarMonth = DateTime(now.year, now.month, 1);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_loaded) {
+        _loaded = true;
+        context.read<DepartmentsController>().loadData();
+      }
+    });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final controller = context.read<DepartmentsController>();
-    if (!_loaded) {
-      _loaded = true;
-      controller.loadData();
-    }
     final success = controller.successMessage;
     if (success != null) {
       _showSuccessToast = true;
