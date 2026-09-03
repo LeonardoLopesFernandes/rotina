@@ -40,10 +40,11 @@ class DepartmentCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: [
-                Expanded(
+                Flexible(
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Text(
                           '${department.department.code} - ${department.department.name}',
                           style: const TextStyle(
@@ -52,10 +53,11 @@ class DepartmentCard extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Open Sans',
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 6),
-                      if (allTreated)
+                      if (allTreated) ...[
+                        const SizedBox(width: 6),
                         Container(
                           width: 24,
                           height: 24,
@@ -67,9 +69,11 @@ class DepartmentCard extends StatelessWidget {
                           child: const Center(
                             child: Icon(Icons.check, color: Colors.white, size: 14),
                           ),
-                        )
-                      else if (blocked)
+                        ),
+                      ] else if (blocked) ...[
+                        const SizedBox(width: 6),
                         Image.asset('assets/ic_block.png', width: 22, height: 22),
+                      ],
                     ],
                   ),
                 ),
