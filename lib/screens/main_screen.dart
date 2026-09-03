@@ -127,10 +127,10 @@ class _MainScreenState extends State<MainScreen> {
               visible: _checklistItem != null,
               item: _checklistItem,
               onClose: () => setState(() => _checklistItem = null),
-              onSave: (item, problems) {
-                controller.markItemProblems(
+              onSave: (item, problems) async {
+                await controller.markItemProblems(
                     item.id, problems, controller.selectedDate);
-                setState(() => _checklistItem = null);
+                if (mounted) setState(() => _checklistItem = null);
               },
             ),
             TreatmentBadgeModal(

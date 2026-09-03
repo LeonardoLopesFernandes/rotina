@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rotina_comercial/api/client.dart'
@@ -61,6 +62,11 @@ class _LoginTokenScreenState extends State<LoginTokenScreen> {
       setAuthToken(token);
       await getItems(formatApiDate(DateTime.now()));
       await context.read<AuthProvider>().setAuthenticated(token);
+      // Extract and save user name from JWT
+      final name = _extractNameFromToken(token);
+      if (name.isNotEmpty) {
+        await context.read<AuthProvider>().setUserName(name);
+      }
       // LoginToken foi empurrado sobre a Root; ao autenticar, a Root já
       // exibe a Home, mas esta tela ficaria por cima. Fazemos pop à raiz.
       if (mounted && Navigator.of(context).canPop()) {
@@ -161,5 +167,26 @@ class _LoginTokenScreenState extends State<LoginTokenScreen> {
         ),
       ),
     );
+  }
+
+  static String _extractNameFromToken(String token) {
+    try {
+      final parts = token.split('.');
+      if (parts.length < 2) return '';
+      String payload = parts[1];
+      while (payload.length % 4 != 0) {
+        payload += '=';
+      }
+      payload = payload.replaceAll('-', '+').replaceAll('_', '/');
+      final decoded = utf8.decode(base64.decode(payload));
+      final map = jsonDecode(decoded) as Map<String, dynamic>;
+      final user = map['user'];
+      if (user != null && user is Map) {
+        return user['nome'] ?? '';
+      }
+      return '';
+    } catch (_) {
+      return '';
+    }
   }
 }

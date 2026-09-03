@@ -62,7 +62,10 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
             () => DepartmentGroup(
                 department: item.department, items: [])).items.add(item);
       }
-      setState(() => _groups = map.values.toList());
+      setState(() {
+        _groups = map.values.toList();
+        _groups.sort((a, b) => a.department.code.compareTo(b.department.code));
+      });
     } catch (e) {
       showToast('Erro ao carregar itens: $e', true);
     } finally {
@@ -358,15 +361,11 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
           children: [
             GestureDetector(
               onTap: () => Navigator.of(context).pop(),
-              child: Container(
+              child: const SizedBox(
                 width: 44,
                 height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Center(
-                  child: Icon(Icons.arrow_back, color: Colors.white, size: 26),
+                child: Center(
+                  child: Icon(Icons.arrow_back, color: AppColors.primary, size: 28),
                 ),
               ),
             ),
@@ -382,15 +381,11 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
             ),
             GestureDetector(
               onTap: () => setState(() => _showMenu = true),
-              child: Container(
+              child: const SizedBox(
                 width: 44,
                 height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Center(
-                  child: Icon(Icons.menu, color: Colors.white, size: 26),
+                child: Center(
+                  child: Icon(Icons.menu, color: AppColors.primary, size: 30),
                 ),
               ),
             ),

@@ -51,16 +51,15 @@ class DepartmentsController with ChangeNotifier {
         merged.add(Department(department: dept.department, items: itemsWithCode));
       }
       _allDepartments = merged;
-      _departments = merged;
+      _allDepartments.sort((a, b) => a.department.code.compareTo(b.department.code));
+      _departments = _allDepartments;
     } on DioException catch (e) {
       _error = mapErrorMessage(e);
     } catch (e) {
       _error = mapErrorMessage(e);
     } finally {
-      if (!silent) {
-        _isLoading = false;
-        notifyListeners();
-      }
+      _isLoading = false;
+      notifyListeners();
     }
   }
 

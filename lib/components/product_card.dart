@@ -20,13 +20,49 @@ class ProductCard extends StatefulWidget {
   State<ProductCard> createState() => _ProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _ProductCardState extends State<ProductCard>
+    with SingleTickerProviderStateMixin {
   int? _activeStat;
+  late AnimationController _animController;
+  late Animation<double> _rotationAnim;
+  late Animation<double> _scaleAnim;
+  bool _wasTreated = false;
 
-  String _statusAsset() {
-    if (widget.blocked) return 'assets/ic_block.png';
-    if (widget.item.treated) return 'assets/ic_check.png';
-    return 'assets/ic_lapis.png';
+  @override
+  void initState() {
+    super.initState();
+    _wasTreated = widget.item.treated;
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _rotationAnim = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
+    );
+    _scaleAnim = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.0), weight: 40),
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.2), weight: 30),
+      TweenSequenceItem(tween: Tween(begin: 1.2, end: 1.0), weight: 30),
+    ]).animate(
+      CurvedAnimation(parent: _animController, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant ProductCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_wasTreated && widget.item.treated) {
+      _wasTreated = true;
+      _animController.forward(from: 0);
+    } else {
+      _wasTreated = widget.item.treated;
+    }
+  }
+
+  @override
+  void dispose() {
+    _animController.dispose();
+    super.dispose();
   }
 
   void _handleCardPress() {
@@ -156,18 +192,38 @@ class _ProductCardState extends State<ProductCard> {
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: _handleStatusPress,
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: widget.item.treated
-                            ? AppColors.success.withOpacity(0.15)
-                            : (widget.blocked ? AppColors.danger.withOpacity(0.15) : AppColors.primary.withOpacity(0.1)),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Image.asset(_statusAsset(), width: 20, height: 20),
-                      ),
+                    child: AnimatedBuilder(
+                      animation: _animController,
+                      builder: (context, child) {
+                        final rotation = _rotationAnim.value;
+                        final scale = _scaleAnim.value;
+                        final showCheck = widget.item.treated;
+                        return Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: showCheck
+                                ? AppColors.success.withOpacity(0.15)
+                                : (widget.blocked
+                                    ? AppColors.danger.withOpacity(0.15)
+                                    : AppColors.primary.withOpacity(0.1)),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.identity()
+                                ..rotateZ(rotation * 3.14159)
+                                ..scale(scale),
+                              child: Image.asset(
+                                showCheck ? 'assets/ic_check.png' : 'assets/ic_lapis.png',
+                                width: 20,
+                                height: 20,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],

@@ -97,7 +97,7 @@ class _ChecklistModalState extends State<ChecklistModal> {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               child: SingleChildScrollView(
                     child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         widget.item?.description ?? 'Checklist do item',
@@ -107,6 +107,7 @@ class _ChecklistModalState extends State<ChecklistModal> {
                           color: AppColors.primary,
                           fontFamily: 'Open Sans',
                         ),
+                        textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -118,6 +119,7 @@ class _ChecklistModalState extends State<ChecklistModal> {
                           color: AppColors.textMuted,
                           fontFamily: 'Open Sans',
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     const SizedBox(height: 12),
                     if (_blocked)
