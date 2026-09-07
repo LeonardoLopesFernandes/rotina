@@ -68,12 +68,13 @@ class _MainScreenState extends State<MainScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        // Always dismiss keyboard first if open
-        final focus = FocusManager.instance.primaryFocus;
-        if (focus != null && focus.hasFocus) {
-          focus.unfocus();
+        // Consome o voltar apenas se o teclado estiver visível; foco retido
+        // sem teclado aberto não deve bloquear o fluxo de saída
+        if (MediaQuery.of(context).viewInsets.bottom > 0) {
+          FocusManager.instance.primaryFocus?.unfocus();
           return;
         }
+        FocusManager.instance.primaryFocus?.unfocus();
         if (_showMenu) {
           setState(() => _showMenu = false);
           return;
