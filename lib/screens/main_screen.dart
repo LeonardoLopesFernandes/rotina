@@ -187,7 +187,7 @@ class _MainScreenState extends State<MainScreen> {
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: AppColors.primary,
                           fontFamily: 'Open Sans')),
                 ],
               ),
