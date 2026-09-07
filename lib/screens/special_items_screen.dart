@@ -380,6 +380,22 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
                   overflow: TextOverflow.ellipsis),
             ),
             GestureDetector(
+              onTap: () async {
+                showToast('Gerando PDF...');
+                final result = _itemType == 'unsold'
+                    ? await downloadUnsoldItemsPdf()
+                    : await downloadNoSalesHistoryItemsPdf();
+                showToast(result.message, true);
+              },
+              child: const SizedBox(
+                width: 44,
+                height: 44,
+                child: Center(
+                  child: Icon(Icons.print, color: AppColors.primary, size: 26),
+                ),
+              ),
+            ),
+            GestureDetector(
               onTap: () => setState(() => _showMenu = true),
               child: const SizedBox(
                 width: 44,

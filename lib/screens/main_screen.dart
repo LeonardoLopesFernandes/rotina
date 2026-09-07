@@ -95,6 +95,12 @@ class _MainScreenState extends State<MainScreen> {
           setState(() => _badgeItem = null);
           return;
         }
+        if (!sameDay(controller.selectedDate, DateTime.now())) {
+          final today = clampToWeekday(DateTime.now());
+          controller.selectedDate = today;
+          controller.loadDataForDate(today);
+          return;
+        }
         setState(() => _showExit = true);
       },
       child: Scaffold(

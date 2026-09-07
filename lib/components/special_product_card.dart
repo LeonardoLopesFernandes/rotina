@@ -16,14 +16,12 @@ class SpecialProductCard extends StatelessWidget {
     required this.onTreatedClick,
   });
 
+  String _brl(double value) =>
+      'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
+
   @override
   Widget build(BuildContext context) {
     final treated = item.isTreated;
-
-    final extraParts = ['Estoque: ${item.stockQuantity}'];
-    if (item.daysWithoutSelling != null) {
-      extraParts.add('Sem venda há ${item.daysWithoutSelling} dias');
-    }
 
     return GestureDetector(
       onTap: () {
@@ -74,12 +72,32 @@ class SpecialProductCard extends StatelessWidget {
                       fontFamily: 'Open Sans',
                     ),
                   ),
-                  Text(
-                    extraParts.join(' | '),
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: AppColors.textMuted,
-                      fontFamily: 'Open Sans',
+                  if (item.daysWithoutSelling != null)
+                    Text(
+                      'Sem venda há ${item.daysWithoutSelling} dias',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: AppColors.textMuted,
+                        fontFamily: 'Open Sans',
+                      ),
+                    ),
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textMuted,
+                        fontFamily: 'Open Sans',
+                      ),
+                      children: [
+                        TextSpan(text: 'Estoque: ${item.stockQuantity}  '),
+                        TextSpan(
+                          text: _brl(item.stockValue),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

@@ -133,10 +133,12 @@ Future<void> saveNoSalesHistoryItemAnswer(SpecialAnswerRequest request) async {
       .post('rotina/no-sales-history-items/answer', data: request.toJson());
 }
 
-Future<({bool saved, String message})> downloadDaySchedulePdf(
-    String dateApi) async {
+Future<({bool saved, String message})> _downloadPdf(
+  String path,
+  String fileName, {
+  Map<String, dynamic>? queryParameters,
+}) async {
   try {
-    final fileName = 'Rotina_${dateApi.replaceAll('/', '_')}.pdf';
     final headers = <String, String>{
       'User-Agent':
           'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 '
@@ -150,8 +152,8 @@ Future<({bool saved, String message})> downloadDaySchedulePdf(
       headers['Cookie'] = 'rc-newToken=${getAuthToken()}';
     }
     final res = await apiClient.get(
-      'rotina/pdf/generate-day-schedule',
-      queryParameters: {'store': store, 'date': dateApi},
+      path,
+      queryParameters: queryParameters,
       options: Options(
         headers: headers,
         responseType: ResponseType.bytes,
@@ -176,3 +178,21 @@ Future<({bool saved, String message})> downloadDaySchedulePdf(
     return (saved: false, message: 'Erro ao baixar PDF: $e');
   }
 }
+
+Future<({bool saved, String message})> downloadDaySchedulePdf(
+    String dateApi) async {
+  final fileName = 'Rotina_${dateApi.replaceAll('/', '_')}.pdf';
+  return _downloadPdf(
+    'rotina/pdf/generate-day-schedule',
+    fileName,
+    queryParameters: {'store': store, 'date': dateApi},
+  );
+}
+
+Future<({bool saved, String message})> downloadUnsoldItemsPdf() =>
+    _downloadPdf(
+        'rotina/pdf/generate-unsold-items/$store', 'Itens_sem_venda.pdf');
+
+Future<({bool saved, String message})> downloadNoSalesHistoryItemsPdf() =>
+    _downloadPdf('rotina/pdf/generate-no-sales-history-items/$store',
+        'Itens_sem_historico_venda.pdf');
