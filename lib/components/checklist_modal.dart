@@ -190,6 +190,19 @@ class _ChecklistModalState extends State<ChecklistModal> {
         ),
         child: Row(
           children: [
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'Open Sans',
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF3D3D3D)
+                      .withOpacity(disabled ? 0.5 : 1),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
             Container(
               width: 22,
               height: 22,
@@ -205,19 +218,6 @@ class _ChecklistModalState extends State<ChecklistModal> {
                   ? const Text('✓',
                       style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold))
                   : null,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Open Sans',
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF3D3D3D)
-                      .withOpacity(disabled ? 0.5 : 1),
-                ),
-              ),
             ),
           ],
         ),
@@ -277,13 +277,15 @@ class _ChecklistModalState extends State<ChecklistModal> {
           Colors.white,
           _alreadyTreated,
           _alreadyTreated ? null : _handleFinalize,
+          withCheck: true,
         ),
       ],
     );
   }
 
   Widget _button(String label, Color bg, Color fg, bool disabled,
-      VoidCallback? onPressed) {
+      VoidCallback? onPressed,
+      {bool withCheck = false}) {
     return GestureDetector(
       onTap: disabled ? null : onPressed,
       child: Container(
@@ -300,12 +302,26 @@ class _ChecklistModalState extends State<ChecklistModal> {
             ),
           ],
         ),
-        child: Text(label,
-            style: TextStyle(
-                color: disabled ? Colors.white : fg,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                fontFamily: 'Open Sans')),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(label,
+                style: TextStyle(
+                    color: disabled ? Colors.white : fg,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    fontFamily: 'Open Sans')),
+            if (withCheck && !disabled) ...[
+              const SizedBox(width: 6),
+              Text('✓',
+                  style: TextStyle(
+                      color: fg,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      fontFamily: 'Open Sans')),
+            ],
+          ],
+        ),
       ),
     );
   }

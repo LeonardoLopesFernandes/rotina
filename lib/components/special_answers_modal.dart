@@ -96,13 +96,27 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Selecionar problema',
-                    style: TextStyle(
-                      fontSize: 18,
+                  Text(
+                    widget.item?.description ?? 'Selecionar problema',
+                    style: const TextStyle(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
+                      fontFamily: 'Open Sans',
                     ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'EAN: ${widget.item?.ean ?? ''} / SAP: ${widget.item?.sap ?? ''}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textMuted,
+                      fontFamily: 'Open Sans',
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
                   if (_blocked)
@@ -160,6 +174,11 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
         ),
         child: Row(
           children: [
+            Expanded(
+              child: Text(label,
+                  style: const TextStyle(fontSize: 14, color: Color(0xFF0F172A), fontFamily: 'Open Sans')),
+            ),
+            const SizedBox(width: 12),
             Container(
               width: 22,
               height: 22,
@@ -175,11 +194,6 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
                   ? const Text('✓',
                       style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700, fontFamily: 'Open Sans'))
                   : null,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(label,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF0F172A), fontFamily: 'Open Sans')),
             ),
           ],
         ),
@@ -240,13 +254,15 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
           Colors.white,
           _treated,
           _treated ? null : _handleFinalize,
+          withCheck: !_treated,
         ),
       ],
     );
   }
 
   Widget _button(String label, Color bg, Color fg, bool disabled,
-      VoidCallback? onPressed) {
+      VoidCallback? onPressed,
+      {bool withCheck = false}) {
     return GestureDetector(
       onTap: disabled ? null : onPressed,
       child: Container(
@@ -265,8 +281,18 @@ class _SpecialAnswersModalState extends State<SpecialAnswersModal> {
                 ]
               : null,
         ),
-        child: Text(label,
-            style: TextStyle(color: fg, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(label,
+                style: TextStyle(color: fg, fontWeight: FontWeight.w600, fontFamily: 'Open Sans')),
+            if (withCheck) ...[
+              const SizedBox(width: 6),
+              Text('✓',
+                  style: TextStyle(color: fg, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'Open Sans')),
+            ],
+          ],
+        ),
       ),
     );
   }
