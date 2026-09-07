@@ -359,16 +359,7 @@ class _SpecialItemsScreenState extends State<SpecialItemsScreen> {
         height: 64,
         child: Row(
           children: [
-            GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: const SizedBox(
-                width: 44,
-                height: 44,
-                child: Center(
-                  child: Icon(Icons.arrow_back, color: AppColors.primary, size: 28),
-                ),
-              ),
-            ),
+            const SizedBox(width: 12),
             Expanded(
               child: Text(title,
                   style: const TextStyle(

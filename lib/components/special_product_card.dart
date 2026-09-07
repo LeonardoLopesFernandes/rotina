@@ -16,8 +16,16 @@ class SpecialProductCard extends StatelessWidget {
     required this.onTreatedClick,
   });
 
-  String _brl(double value) =>
-      'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
+  String _brl(double value) {
+    final parts = value.toStringAsFixed(2).split('.');
+    final intPart = parts[0];
+    final buffer = StringBuffer();
+    for (var i = 0; i < intPart.length; i++) {
+      if (i > 0 && (intPart.length - i) % 3 == 0) buffer.write('.');
+      buffer.write(intPart[i]);
+    }
+    return 'R\$ ${buffer},${parts[1]}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,27 +113,25 @@ class SpecialProductCard extends StatelessWidget {
             ),
             SizedBox(
               width: 70,
-              child: treated
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: blocked
+                  ? Image.asset('assets/ic_block.png', width: 20, height: 20)
+                  : Container(
+                      width: 32,
+                      height: 32,
                       decoration: BoxDecoration(
-                        color: AppColors.success,
-                        borderRadius: BorderRadius.circular(4),
+                        color: treated
+                            ? AppColors.success.withOpacity(0.15)
+                            : AppColors.primary.withOpacity(0.1),
+                        shape: BoxShape.circle,
                       ),
-                      child: const Text(
-                        '✓ Tratado',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10,
-                          fontFamily: 'Open Sans',
+                      child: Center(
+                        child: Image.asset(
+                          treated ? 'assets/ic_check.png' : 'assets/ic_lapis.png',
+                          width: 20,
+                          height: 20,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    )
-                  : blocked
-                      ? Image.asset('assets/ic_block.png', width: 20, height: 20)
-                      : const SizedBox.shrink(),
+                    ),
             ),
           ],
         ),
